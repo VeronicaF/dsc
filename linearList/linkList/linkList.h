@@ -31,5 +31,9 @@ void sort(LinkList *L);
 void deleteRange(LinkList *L, int low, int high);
 int len(LinkList *L);
 LNode* findCommon(LinkList *L1, LinkList *L2);
+void printAndFree(LinkList &L);
+LinkList * breakIn2(LinkList &L);
+LinkList* breakIn2Reverse(LinkList &L);
+void Deduplicate(LinkList &L);
 
 #endif //DS_LINKLIST_H

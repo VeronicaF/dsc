@@ -4,7 +4,6 @@
 //
 
 #include "linkList.h"
-#include "../../base.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -263,4 +262,101 @@ LNode* findCommon(LinkList *L1, LinkList *L2) {
         ShortList = ShortList->next;
     }
     return NULL;
+}
+
+// 2.9 升序输出节点数据并释放内存
+// 思路：遍历链表，找到最大节点与之前一个节点，输出数据，释放节点。
+// time: Ø(n^2)
+// space: Ø(1)
+void printAndFree(LinkList &L) {
+    LNode *head = L.next, *prev = head, *min = head, *minPrev = &L;
+
+    while (L.next != nullptr) {
+        while (head != nullptr) {
+            if (head->data < min->data) {
+                min = head;
+                minPrev = prev;
+            }
+            prev = head;
+            head = head->next;
+        }
+        std::cout << min->data << "->";
+        minPrev->next = min->next;
+        free(min);
+        head = L.next;
+        minPrev = &L;
+        min = head;
+    }
+
+}
+
+// 2.10 按奇偶分解链表
+// 思路：新建头结点L1，L2，遍历L，尾插
+// time: Ø(n)
+LinkList* breakIn2(LinkList &L) {
+    LinkList *L1 = INIT_LINK_LIST, *L2 = INIT_LINK_LIST;
+    LNode *p = L.next, *next, *s1 = L1, *s2 = L2;
+    int index = 0;
+    while (p != nullptr) {
+        next = p->next;
+        if (index % 2 == 0) {
+            s1->next = p;
+            s1 = p;
+        } else {
+            s2->next = p;
+            s2 = p;
+        }
+        index++;
+        p = next;
+    }
+    s1->next = nullptr;
+    s2->next = nullptr;
+    L = *L1;
+    return L2;
+}
+
+// 2.11 按奇偶拆分链表，偶数链表反序
+// 思路：新建头结点L1，L2，遍历，头插
+// time: Ø(n)
+LinkList* breakIn2Reverse(LinkList &L) {
+    LinkList *L1 = INIT_LINK_LIST, *L2 = INIT_LINK_LIST;
+    L2->next = nullptr;
+    LNode *p = L.next, *s = L1, *next;
+    int index = 0;
+    while (p != nullptr) {
+        next = p->next;
+        if (index % 2 == 0) {
+            s->next = p;
+            s = p;
+        } else {
+            p->next = L2->next;
+            L2->next = p;
+        }
+        p = next;
+        index++;
+    }
+    s->next = nullptr;
+    L = *L1;
+    return L2;
+}
+
+// 2.12 升序单链表去重
+// 思路：遍历链表，维护当前节点与前一个节点，如相同删除当前节点
+// time: Ø(n)
+void Deduplicate(LinkList &L) {
+    LNode *prev, *p, *next;
+    if (L.next == nullptr || L.next->next == nullptr) {
+        return;
+    }
+    prev = L.next, p = prev->next;
+    while (p != nullptr) {
+        next = p->next;
+        if (p->data == prev->data) {
+            prev->next = p->next;
+            free(p);
+        } else {
+            prev = p;
+        }
+        p = next;
+    }
 }
