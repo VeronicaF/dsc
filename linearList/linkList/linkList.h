@@ -12,7 +12,7 @@
 
 typedef struct LNode {
     ELEM_TYPE data;
-    struct LNode* next;
+    struct LNode *next;
 } LNode, LinkList;
 
 LinkList* createList1();
@@ -35,5 +35,10 @@ void printAndFree(LinkList &L);
 LinkList * breakIn2(LinkList &L);
 LinkList* breakIn2Reverse(LinkList &L);
 void Deduplicate(LinkList &L);
+LinkList* mergeList(LinkList &L1, LinkList &L2);
+LinkList* Union(LinkList *L1, LinkList *L2);
+LinkList intersection(LinkList &L1, LinkList *L2);
+bool pattern(LinkList *L1, LinkList *L2);
+void Deduplicate2(LinkList &L, int n);
 
 #endif //DS_LINKLIST_H
